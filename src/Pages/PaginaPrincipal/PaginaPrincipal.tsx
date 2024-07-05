@@ -6,8 +6,8 @@ import './StylePaginaPrincipal.css'
 
 
 interface Ecommerce {
+  id: string; // Adicione o ID do e-commerce
   ecommerce_name: string;
-
   category: string;
   website: string;
   provinceSelect: string;
@@ -17,6 +17,7 @@ interface Ecommerce {
   legal_representative: string;
   foundation_date: string;
   status: boolean;
+  profileImage: string;
 }
 
 const EcommerceData: React.FC = () => {

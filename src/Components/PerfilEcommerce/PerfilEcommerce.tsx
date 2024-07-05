@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface EcommerceProps {
   ecommerce: {
-    id: string; // Adicione o ID do e-commerce
+    id: string; // Certifique-se de que o ID do e-commerce está incluído
     ecommerce_name: string;
     category: string;
     website: string;
@@ -23,7 +23,7 @@ const EcommerceCard: React.FC<EcommerceProps> = ({ ecommerce }) => {
   const navigate = useNavigate();
 
   const handleViewProfile = () => {
-    navigate(`/perfil/${ecommerce.ecommerce_name}`);
+    navigate(`/perfil/${ecommerce.id}`);
   };
 
   return (
