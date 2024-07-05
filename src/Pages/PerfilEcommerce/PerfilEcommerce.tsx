@@ -4,9 +4,8 @@ import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
+import { useNavigate } from 'react-router-dom';
 import './StylePerfilEcommerce.css'
-
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
@@ -19,7 +18,6 @@ const firebaseConfig = {
     measurementId: "G-4V5LL17MRE"
 };
 
-// Inicialize o Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -34,8 +32,8 @@ const EcommerceProfile: React.FC = () => {
     const [starRating, setStarRating] = useState<number | null>(null);
     const [comment, setComment] = useState<string>('');
 
+    const navigate = useNavigate();
 
-    
     const urlParams = new URLSearchParams(window.location.search);
     const ecommerceName = urlParams.get("ecommerce_name");
     console.log("Nome do e-commerce:", ecommerceName);
@@ -98,35 +96,35 @@ const EcommerceProfile: React.FC = () => {
 
     const handleRatingSubmit = () => {
         if (starRating && comment.trim() !== "") {
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user && ecommerceId) {
-                    const userId = user.uid;
-                    feedbackAquiDB2.child("consumidores").child(userId).once("value")
-                        .then((snapshot) => {
-                            const userData = snapshot.val();
-                            const userName = userData.nome;
+            const user = firebase.auth().currentUser;
+            if (user && ecommerceId) {
+                const userId = user.uid;
+                feedbackAquiDB2.child("consumidores").child(userId).once("value")
+                    .then((snapshot) => {
+                        const userData = snapshot.val();
+                        const userName = userData.nome;
 
-                            const feedbackData = {
-                                ecommerceId: ecommerceId,
-                                userId: userId,
-                                userName: userName,
-                                starRating: starRating,
-                                comment: comment
-                            };
+                        const feedbackData = {
+                            ecommerceId: ecommerceId,
+                            userId: userId,
+                            userName: userName,
+                            starRating: starRating,
+                            comment: comment
+                        };
 
-                            const newFeedbackRef = feedbackAquiDB2.child("avaliacoes").push();
-                            newFeedbackRef.set(feedbackData);
+                        const newFeedbackRef = feedbackAquiDB2.child("avaliacoes").push();
+                        newFeedbackRef.set(feedbackData);
 
-                            setComment('');
-                            alert("Avaliação enviada com sucesso!");
-                        })
-                        .catch((error) => {
-                            console.error("Erro ao buscar dados do usuário:", error);
-                        });
-                } else {
-                    console.log("Usuário não autenticado");
-                }
-            });
+                        setComment('');
+                        alert("Avaliação enviada com sucesso!");
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao buscar dados do usuário:", error);
+                    });
+            } else {
+                // Redirecionar para a página de login
+                navigate('/login');
+            }
         } else {
             alert("Por favor, selecione uma classificação antes de enviar.");
         }
@@ -136,17 +134,10 @@ const EcommerceProfile: React.FC = () => {
         if (avaliacoes.length === 0) {
             return 0;
         }
-    
-        console.log("Avalicaoes: ", avaliacoes)
-        let total = 0;
 
-        for (let i = 0; i < avaliacoes.length; i++) {
-            total += Number(avaliacoes[i]);
-        }
-        console.log("Total: ", total)
+        let total = avaliacoes.reduce((acc, curr) => acc + curr, 0);
         return total / avaliacoes.length;
     };
-
 
     return (
         <div>
