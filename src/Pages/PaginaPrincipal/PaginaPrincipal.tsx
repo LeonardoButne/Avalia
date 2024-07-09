@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, DataSnapshot } from 'firebase/database';
 import EcommerceCard from '../../Components/EcommerceCard/EcommerceCard';
 import './StylePaginaPrincipal.css'
+import Spinner from '../../Components/PageLoader/Spinner';
 
 
 interface Ecommerce {
@@ -69,7 +70,7 @@ const EcommerceData: React.FC = () => {
   console.log('Ecommerces state:', ecommerces); // Log the ecommerces state
 
   return (
-    <div className="container">
+    <div className="cards-container">
       <h1>Lista de E-commerces</h1>
 
       <div id="progress-bar-container">
@@ -82,7 +83,7 @@ const EcommerceData: React.FC = () => {
             <EcommerceCard key={ecommerce.ecommerce_name} ecommerce={ecommerce} />
           ))
         ) : (
-          <p>Nenhum e-commerce encontrado.</p>
+          <Spinner />
         )}
       </div>
     </div>

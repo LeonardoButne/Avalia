@@ -6,6 +6,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { useNavigate } from 'react-router-dom';
 import './StylePerfilEcommerce.css'
+import Spinner from '../../Components/PageLoader/Spinner';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
@@ -75,6 +76,7 @@ const EcommerceProfile: React.FC = () => {
                         })
                         .catch((error) => {
                             console.error("Erro ao obter dados do usuário:", error);
+                            <Spinner />
                             return { comentario: data.comment, nome: "Erro ao obter nome do usuário" };
                         });
 
@@ -134,8 +136,12 @@ const EcommerceProfile: React.FC = () => {
         if (avaliacoes.length === 0) {
             return 0;
         }
-
-        let total = avaliacoes.reduce((acc, curr) => acc + curr, 0);
+    
+        let total = 0;
+        for (let i = 0; i < avaliacoes.length; i++) {
+            total += Number(avaliacoes[i]); // Converter para número antes de somar
+        }
+    
         return total / avaliacoes.length;
     };
 

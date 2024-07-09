@@ -12,8 +12,7 @@ const LoginConsumidor: React.FC = () => {
     const handleLogin = () => {
         if (email && password.length >= 6) {
             // Chamada para a função de login do Firebase
-            Login(email, password)
-                .then(() => {
+            Login(email, password).then(() => {
                     // Lógica após o login bem-sucedido (redirecionamento, etc.)
                     console.log('Login realizado com sucesso!');
                 })

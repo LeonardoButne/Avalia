@@ -5,6 +5,8 @@ import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
     authDomain: "feedback-aqui.firebaseapp.com",
