@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { useNavigate } from 'react-router-dom';
-import './StylePerfilEcommerce.css'
-import Spinner from '../../Components/PageLoader/Spinner';
+import './StylePerfilEcommerce.css';
 
 const firebaseConfig = {
+    // Configuração do Firebase
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
-    authDomain: "feedback-aqui.firebaseapp.com",
-    databaseURL: "https://feedback-aqui-default-rtdb.firebaseio.com",
-    projectId: "feedback-aqui",
-    storageBucket: "feedback-aqui.appspot.com",
-    messagingSenderId: "390730068105",
-    appId: "1:390730068105:web:4f9c564b63192d6ddc5658",
-    measurementId: "G-4V5LL17MRE"
+            authDomain: "feedback-aqui.firebaseapp.com",
+            databaseURL: "https://feedback-aqui-default-rtdb.firebaseio.com",
+            projectId: "feedback-aqui",
+            storageBucket: "feedback-aqui.appspot.com",
+            messagingSenderId: "390730068105",
+            appId: "1:390730068105:web:4f9c564b63192d6ddc5658",
+            measurementId: "G-4V5LL17MRE"
 };
 
 if (!firebase.apps.length) {
@@ -35,37 +35,30 @@ const EcommerceProfile: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const ecommerceName = urlParams.get("ecommerce_name");
-    console.log("Nome do e-commerce:", ecommerceName);
-
+    // Função para buscar dados do e-commerce
     useEffect(() => {
         const pathParts = window.location.pathname.split('/');
         const ecommerceName = decodeURIComponent(pathParts[pathParts.length - 1]);
-        console.log("Nome do e-commerce:", ecommerceName);
         if (ecommerceName) {
-            console.log("Buscando e-commerce:", ecommerceName);
             feedbackAquiDB2.child("ecommerces").orderByChild("ecommerce_name").equalTo(ecommerceName).on("value", (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const data = childSnapshot.val();
-                    console.log("Dados do e-commerce:", data);
                     setEcommerce(data);
                     setEcommerceId(childSnapshot.key);
                 });
             });
         }
-    }, [ecommerceName]);
+    }, []);
 
+    // Função para buscar avaliações do e-commerce
     useEffect(() => {
         if (ecommerceId) {
-            console.log("Buscando avaliações para o e-commerce ID:", ecommerceId);
             feedbackAquiDB2.child("avaliacoes").orderByChild("ecommerceId").equalTo(ecommerceId).on("value", (snapshot) => {
                 const newAvaliacoes: number[] = [];
                 const comentariosPromises: Promise<{ nome: string; comentario: string }>[] = [];
 
                 snapshot.forEach((childSnapshot) => {
                     const data = childSnapshot.val();
-                    console.log("Dados da avaliação:", data);
                     newAvaliacoes.push(data.starRating);
 
                     const userPromise = feedbackAquiDB2.child("consumidores").child(data.userId).once("value")
@@ -76,7 +69,6 @@ const EcommerceProfile: React.FC = () => {
                         })
                         .catch((error) => {
                             console.error("Erro ao obter dados do usuário:", error);
-                            <Spinner />
                             return { comentario: data.comment, nome: "Erro ao obter nome do usuário" };
                         });
 
@@ -85,7 +77,6 @@ const EcommerceProfile: React.FC = () => {
 
                 Promise.all(comentariosPromises)
                     .then((comentarios) => {
-                        console.log("Comentários carregados:", comentarios);
                         setAvaliacoes(newAvaliacoes);
                         setComentarios(comentarios);
                     })
@@ -96,6 +87,7 @@ const EcommerceProfile: React.FC = () => {
         }
     }, [ecommerceId]);
 
+    // Função para lidar com o envio da avaliação
     const handleRatingSubmit = () => {
         if (starRating && comment.trim() !== "") {
             const user = firebase.auth().currentUser;
@@ -124,7 +116,6 @@ const EcommerceProfile: React.FC = () => {
                         console.error("Erro ao buscar dados do usuário:", error);
                     });
             } else {
-                // Redirecionar para a página de login
                 navigate('/login');
             }
         } else {
@@ -132,17 +123,19 @@ const EcommerceProfile: React.FC = () => {
         }
     };
 
+    // Função para calcular a média das avaliações
     const calcularMedia = (avaliacoes: number[]) => {
         if (avaliacoes.length === 0) {
             return 0;
         }
     
-        let total = 0;
-        for (let i = 0; i < avaliacoes.length; i++) {
-            total += Number(avaliacoes[i]); // Converter para número antes de somar
-        }
-    
+        const total = avaliacoes.reduce((acc, curr) => acc + curr, 0);
         return total / avaliacoes.length;
+    };
+
+    // Função para lidar com o clique nas estrelas
+    const handleStarClick = (value: number) => {
+        setStarRating(value);
     };
 
     return (
@@ -188,7 +181,7 @@ const EcommerceProfile: React.FC = () => {
                                 <li
                                     key={value}
                                     className={`star-icon ${starRating && starRating >= value ? 'ativo' : ''}`}
-                                    onClick={() => setStarRating(value)}
+                                    onClick={() => handleStarClick(value)} // Alterado para chamar handleStarClick
                                 />
                             ))}
                         </ul>

@@ -31,13 +31,8 @@ const EcommerceCard: React.FC<EcommerceProps> = ({ ecommerce }) => {
       <img src={ecommerce.profileImage} alt={`${ecommerce.ecommerce_name} logo`} className="profile-image" />
       <h2>{ecommerce.ecommerce_name}</h2>
       <p><strong>Category:</strong> {ecommerce.category}</p>
-      <p><strong>Website:</strong> <a href={ecommerce.website} target="_blank" rel="noopener noreferrer">{ecommerce.website}</a></p>
       <p><strong>Province:</strong> {ecommerce.provinceSelect}</p>
       <p><strong>City:</strong> {ecommerce.citySelect}</p>
-      <p><strong>Phone:</strong> {ecommerce.phone}</p>
-      <p><strong>Email:</strong> {ecommerce.contact_email}</p>
-      <p><strong>Legal Representative:</strong> {ecommerce.legal_representative}</p>
-      <p><strong>Foundation Date:</strong> {ecommerce.foundation_date}</p>
       <p className={ecommerce.status ? '' : 'suspensa-text'}>{ecommerce.status ? 'Active' : 'Suspended'}</p>
       <button className="button" onClick={handleViewProfile}>View Profile</button>
     </div>
