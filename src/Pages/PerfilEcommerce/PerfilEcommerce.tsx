@@ -129,7 +129,11 @@ const EcommerceProfile: React.FC = () => {
             return 0;
         }
     
-        const total = avaliacoes.reduce((acc, curr) => acc + curr, 0);
+        let total = 0;
+        for (let i = 0; i < avaliacoes.length; i++) {
+            total += Number(avaliacoes[i]); // Converter para número antes de somar
+        }
+    
         return total / avaliacoes.length;
     };
 

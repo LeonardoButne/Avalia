@@ -93,7 +93,7 @@ const Login: React.FC = () => {
                 <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <div id="password_error">A senha deve conter pelo menos 6 caracteres!</div>
                 <button type="button" onClick={handleLogin}>Login</button>
-                <button type="button" id="btn-cadastrar" onClick={() => navigate('/TipoCadastro')}>Cadastre-se</button>
+                <button type="button" id="btn-cadastrar" onClick={() => navigate('/cadastro_tipo')}>Cadastre-se</button>
             </form>
         </div>
     );

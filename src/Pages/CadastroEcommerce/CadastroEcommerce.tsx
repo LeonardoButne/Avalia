@@ -7,14 +7,14 @@ import 'firebase/compat/storage';
 import './CadastroEcommerce.css'
 
 const firebaseConfig = {
-    apiKey: "SuaChaveDeAPI",
+    apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
     authDomain: "feedback-aqui.firebaseapp.com",
     databaseURL: "https://feedback-aqui-default-rtdb.firebaseio.com",
     projectId: "feedback-aqui",
     storageBucket: "feedback-aqui.appspot.com",
-    messagingSenderId: "SeuSenderId",
-    appId: "SuaAppId",
-    measurementId: "SeuMeasurementId"
+    messagingSenderId: "390730068105",
+    appId: "1:390730068105:web:4f9c564b63192d6ddc5658",
+    measurementId: "G-4V5LL17MRE"
 };
 
 if (!firebase.apps.length) {
@@ -34,7 +34,7 @@ const provinces = [
     "Niassa"
 ];
 
-const cities = {
+const cities: { [key: string]: string[] } = {
     "Maputo": ["Maputo City", "Matola"],
     "Gaza": ["Chókwè", "Xai-Xai"],
     "Inhambane": ["Inhambane City", "Maxixe"],
@@ -50,7 +50,7 @@ const cities = {
 const CadastroEcommerce: React.FC = () => {
     const [ecommerceName, setEcommerceName] = useState('');
     const [category, setCategory] = useState('');
-    const [province, setProvince] = useState('');
+    const [province, setProvince] = useState<string>('');
     const [city, setCity] = useState('');
     const [website, setWebsite] = useState('');
     const [phone, setPhone] = useState('');
@@ -61,7 +61,6 @@ const CadastroEcommerce: React.FC = () => {
     const handleCadastroSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Aqui você pode adicionar a lógica para enviar os dados para o Firebase
         const ecommerceData = {
             ecommerceName,
             category,
@@ -74,12 +73,10 @@ const CadastroEcommerce: React.FC = () => {
             foundationDate
         };
 
-        // Exemplo de como enviar os dados para o Firebase
         const db = firebase.database().ref("feedbackAqui/ecommerces");
         db.push(ecommerceData)
             .then(() => {
                 alert("E-commerce cadastrado com sucesso!");
-                // Limpar os campos após o cadastro
                 setEcommerceName('');
                 setCategory('');
                 setProvince('');
@@ -145,7 +142,7 @@ const CadastroEcommerce: React.FC = () => {
                     disabled={!province}
                 >
                     <option value="">Selecione a cidade</option>
-                    {cities[province]?.map((city, index) => (
+                    {province && cities[province]?.map((city, index) => (
                         <option key={index} value={city}>{city}</option>
                     ))}
                 </select>

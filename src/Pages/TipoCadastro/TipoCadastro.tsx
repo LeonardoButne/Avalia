@@ -1,15 +1,16 @@
 import React from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './TipoCadastro.css';
 
-interface Props extends RouteComponentProps {}
+const CadastroTipo: React.FC = () => {
+    const navigate = useNavigate();
 
-const CadastroTipo: React.FC<Props> = ({ history }) => {
     const abrirCadastroConsumidor = () => {
-        history.push("/cadastro-consumidor"); // Redireciona para a página de cadastro de consumidor
+        navigate("/cadastro-consumidor"); // Redireciona para a página de cadastro de consumidor
     };
 
     const abrirCadastroEcommerce = () => {
-        history.push("/cadastro-ecommerce"); // Redireciona para a página de cadastro de e-commerce
+        navigate("/cadastro-ecommerce"); // Redireciona para a página de cadastro de e-commerce
     };
 
     return (
@@ -53,4 +54,4 @@ const CadastroTipo: React.FC<Props> = ({ history }) => {
     );
 };
 
-export default withRouter(CadastroTipo);
+export default CadastroTipo;
