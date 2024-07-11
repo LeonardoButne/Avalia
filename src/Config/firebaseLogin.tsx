@@ -28,7 +28,6 @@ const feedbackAquiDB2 = firebase.database().ref("feedbackAqui");
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
 
     const handleLogin = async () => {
         try {
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
                     window.location.href = "TelaPrincipal.html";
                 }
             } else {
-                setError("Usuário não encontrado");
+                console.log("Usuário não encontrado");
             }
 
             $("#progress-bar").css("width", "100%");
@@ -60,14 +59,8 @@ const Login: React.FC = () => {
             }, 500);
         } catch (error) {
             console.error("Erro no login:", error);
-            setError(getErrorMessage(error));
             $("#progress-bar-container").hide();
         }
-    };
-
-    const getErrorMessage = (error: any) => {
-        // Implemente a função para obter mensagens de erro específicas do Firebase
-        return "Ocorreu um erro ao fazer login. Tente novamente mais tarde.";
     };
 
     return (

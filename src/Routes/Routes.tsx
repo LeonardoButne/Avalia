@@ -1,7 +1,6 @@
 // RoutesComponent.tsx
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import PageLoader from "../Components/PageLoader/PageLoader";
 import PaginaLogin from "../Pages/PaginaLogin";
 import Spinner from "../Components/PageLoader/Spinner";
 import Navbar from "../Layout/Navbar/Navbar";
