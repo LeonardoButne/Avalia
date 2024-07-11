@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
-import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
-import './CadastroEcommerce.css'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './CadastroEcommerce.css';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
@@ -48,49 +49,73 @@ const cities: { [key: string]: string[] } = {
 };
 
 const CadastroEcommerce: React.FC = () => {
-    const [ecommerceName, setEcommerceName] = useState('');
+    const [ecommerce_name, setEcommerceName] = useState('');
     const [category, setCategory] = useState('');
-    const [province, setProvince] = useState<string>('');
-    const [city, setCity] = useState('');
+    const [provinceSelect, setProvince] = useState<string>('');
+    const [citySelect, setCity] = useState('');
     const [website, setWebsite] = useState('');
     const [phone, setPhone] = useState('');
-    const [contactEmail, setContactEmail] = useState('');
-    const [legalRepresentative, setLegalRepresentative] = useState('');
-    const [foundationDate, setFoundationDate] = useState('');
+    const [contact_email, setContactEmail] = useState('');
+    const [legal_representative, setLegalRepresentative] = useState('');
+    const [foundationDate, setFoundationDate] = useState<Date | null>(null);
+    const [profileImage, setProfileImage] = useState<File | null>(null);
+
+    const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setProfileImage(e.target.files[0]);
+        }
+    };
 
     const handleCadastroSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        const ecommerceData = {
-            ecommerceName,
-            category,
-            province,
-            city,
-            website,
-            phone,
-            contactEmail,
-            legalRepresentative,
-            foundationDate
-        };
+        if (!profileImage) {
+            alert("Por favor, selecione uma imagem de perfil.");
+            return;
+        }
 
-        const db = firebase.database().ref("feedbackAqui/ecommerces");
-        db.push(ecommerceData)
-            .then(() => {
-                alert("E-commerce cadastrado com sucesso!");
-                setEcommerceName('');
-                setCategory('');
-                setProvince('');
-                setCity('');
-                setWebsite('');
-                setPhone('');
-                setContactEmail('');
-                setLegalRepresentative('');
-                setFoundationDate('');
-            })
-            .catch(error => {
-                console.error("Erro ao cadastrar e-commerce:", error);
-                alert("Erro ao cadastrar e-commerce. Verifique o console para mais detalhes.");
+        const storageRef = firebase.storage().ref();
+        const profileImageRef = storageRef.child(`profileImages/${profileImage.name}`);
+
+        profileImageRef.put(profileImage).then(() => {
+            profileImageRef.getDownloadURL().then((url) => {
+                const ecommerceData = {
+                    ecommerce_name,
+                    category,
+                    provinceSelect,
+                    citySelect,
+                    website,
+                    phone,
+                    contact_email,
+                    legal_representative,
+                    foundation_date: foundationDate ? foundationDate.toISOString() : '',
+                    profileImageUrl: url
+                };
+
+                const db = firebase.database().ref("feedbackAqui/ecommerces");
+                db.push(ecommerceData)
+                    .then(() => {
+                        alert("E-commerce cadastrado com sucesso!");
+                        setEcommerceName('');
+                        setCategory('');
+                        setProvince('');
+                        setCity('');
+                        setWebsite('');
+                        setPhone('');
+                        setContactEmail('');
+                        setLegalRepresentative('');
+                        setFoundationDate(null);
+                        setProfileImage(null);
+                    })
+                    .catch(error => {
+                        console.error("Erro ao cadastrar e-commerce:", error);
+                        alert("Erro ao cadastrar e-commerce. Verifique o console para mais detalhes.");
+                    });
             });
+        }).catch(error => {
+            console.error("Erro ao fazer upload da imagem:", error);
+            alert("Erro ao fazer upload da imagem. Verifique o console para mais detalhes.");
+        });
     };
 
     return (
@@ -104,7 +129,7 @@ const CadastroEcommerce: React.FC = () => {
                     id="ecommerce_name"
                     name="ecommerce_name"
                     autoComplete="off"
-                    value={ecommerceName}
+                    value={ecommerce_name}
                     onChange={(e) => setEcommerceName(e.target.value)}
                 />
                 <div className="font">Categoria</div>
@@ -125,7 +150,7 @@ const CadastroEcommerce: React.FC = () => {
                 <select
                     name="province"
                     id="provinceSelect"
-                    value={province}
+                    value={provinceSelect}
                     onChange={(e) => setProvince(e.target.value)}
                 >
                     <option value="">Selecione a província</option>
@@ -137,12 +162,12 @@ const CadastroEcommerce: React.FC = () => {
                 <select
                     name="city"
                     id="citySelect"
-                    value={city}
+                    value={citySelect}
                     onChange={(e) => setCity(e.target.value)}
-                    disabled={!province}
+                    disabled={!provinceSelect}
                 >
                     <option value="">Selecione a cidade</option>
-                    {province && cities[province]?.map((city, index) => (
+                    {provinceSelect && cities[provinceSelect]?.map((city, index) => (
                         <option key={index} value={city}>{city}</option>
                     ))}
                 </select>
@@ -170,7 +195,7 @@ const CadastroEcommerce: React.FC = () => {
                     name="contact_email"
                     id="contact_email"
                     autoComplete="off"
-                    value={contactEmail}
+                    value={contact_email}
                     onChange={(e) => setContactEmail(e.target.value)}
                 />
                 <div className="font font2">Representante Legal</div>
@@ -179,18 +204,23 @@ const CadastroEcommerce: React.FC = () => {
                     name="legal_representative"
                     id="legal_representative"
                     autoComplete="off"
-                    value={legalRepresentative}
+                    value={legal_representative}
                     onChange={(e) => setLegalRepresentative(e.target.value)}
                 />
                 <div className="font">Data de Fundação</div>
+                <DatePicker
+                    selected={foundationDate}
+                    onChange={(date: Date | null) => setFoundationDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    className="datepicker"
+                />
+                <div className="font">Imagem de Perfil</div>
                 <input
-                    type="text"
-                    name="foundation_date"
-                    id="foundation_date"
-                    placeholder="dd/mm/aaaa"
-                    value={foundationDate}
-                    onChange={(e) => setFoundationDate(e.target.value)}
-                    readOnly
+                    type="file"
+                    name="profileImage"
+                    id="profileImage"
+                    accept="image/*"
+                    onChange={handleProfileImageChange}
                 />
                 <button type="submit">Cadastre-se</button>
             </form>

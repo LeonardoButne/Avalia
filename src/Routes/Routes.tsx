@@ -8,6 +8,7 @@ import Navbar from "../Layout/Navbar/Navbar";
 import Footer from "../Layout/Footer/Footer";
 import CadastroTipo from "../Pages/TipoCadastro/TipoCadastro";
 import CadastroConsumidor from "../Pages/CadastroConsumidor/CadastroConsumidor";
+import CadastroEcommerce from "../Pages/CadastroEcommerce/CadastroEcommerce";
 
 const PaginaPrincipal = React.lazy(() => import("../Pages/PaginaPrincipal"));
 const PerfilEcommerce = React.lazy(() => import("../Pages/PerfilEcommerce"))
@@ -23,6 +24,8 @@ const RoutesComponent = () => {
                     <Route path="/login" element={<PaginaLogin />} />
                     <Route path="/cadastro_tipo" element={<CadastroTipo />} />
                     <Route path="/cadastro-consumidor" element={<CadastroConsumidor/>}/>
+                    <Route path="/cadastro-ecommerce" element={<CadastroEcommerce/>}/>
+
                 </Routes>
             <Footer />
             </React.Suspense>

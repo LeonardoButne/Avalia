@@ -1,10 +1,10 @@
+// EcommerceData.tsx
 import React from 'react';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue, DataSnapshot } from 'firebase/database';
 import EcommerceCard from '../../Components/EcommerceCard/EcommerceCard';
-import './StylePaginaPrincipal.css'
+import './StylePaginaPrincipal.css';
 import Spinner from '../../Components/PageLoader/Spinner';
-
 
 interface Ecommerce {
   id: string; // Adicione o ID do e-commerce
@@ -18,7 +18,7 @@ interface Ecommerce {
   legal_representative: string;
   foundation_date: string;
   status: boolean;
-  profileImage: string;
+  profileImage: string; // Adicione a propriedade profileImage como string
 }
 
 const EcommerceData: React.FC = () => {
@@ -52,8 +52,10 @@ const EcommerceData: React.FC = () => {
 
       if (data) {
         const dataArray: Ecommerce[] = Object.keys(data).map((key) => {
-          const ecommerce = data[key];
-          console.log('Ecommerce item:', ecommerce); // Log each ecommerce item
+          const ecommerce = {
+            ...data[key],
+            id: key, // Adicione o ID do e-commerce
+          };
           return ecommerce;
         });
         setEcommerces(dataArray);
@@ -73,19 +75,16 @@ const EcommerceData: React.FC = () => {
     <div className="cards-container">
       <h1>Lista de E-commerces</h1>
 
-      <div id="progress-bar-container">
-        <div id="progress-bar"></div>
-      </div>
-
       <div id="ecommerceCards" className="cards-container">
         {ecommerces.length > 0 ? (
           ecommerces.map((ecommerce) => (
-            <EcommerceCard key={ecommerce.ecommerce_name} ecommerce={ecommerce} />
+            <EcommerceCard key={ecommerce.id} ecommerce={ecommerce} />
           ))
         ) : (
           <Spinner />
         )}
       </div>
+
     </div>
   );
 };
