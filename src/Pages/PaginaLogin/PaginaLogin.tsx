@@ -28,7 +28,6 @@ const feedbackAquiDB2 = firebase.database().ref("feedbackAqui");
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
     const [progressBarVisible, setProgressBarVisible] = useState<boolean>(false);
     const [progressBarWidth, setProgressBarWidth] = useState<string>('0%');
     const navigate = useNavigate();
@@ -59,7 +58,7 @@ const Login: React.FC = () => {
                     }
                 }
             } else {
-                setError("Usuário não encontrado");
+                console.log("Usuário não encontrado");
             }
 
             setProgressBarWidth('100%');
@@ -68,13 +67,8 @@ const Login: React.FC = () => {
             }, 500);
         } catch (error) {
             console.error("Erro no login:", error);
-            setError(getErrorMessage(error));
             setProgressBarVisible(false);
         }
-    };
-
-    const getErrorMessage = (error: any) => {
-        return "Ocorreu um erro ao fazer login. Tente novamente mais tarde.";
     };
 
     return (
