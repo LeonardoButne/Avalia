@@ -5,7 +5,7 @@ import 'firebase/compat/database';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './StylePaginaLogin.css';
+import './PaginaLogin.css';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA5W3WDwlAgF8Qn5ptmZ4V4JvVaHQ5KBEk",
