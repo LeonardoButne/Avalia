@@ -28,7 +28,10 @@ const EcommerceCard: React.FC<EcommerceProps> = ({ ecommerce }) => {
 
   return (
     <div className="card">
-      <img src={ecommerce.profileImage} alt={`${ecommerce.ecommerce_name} logo`} className="profile-image" />
+      <div className="image">
+        <img src={ecommerce.profileImage} alt={`${ecommerce.ecommerce_name} logo`} className="profile-img"/>
+      </div>
+
       <h2>{ecommerce.ecommerce_name}</h2>
       <p><strong>Category:</strong> {ecommerce.category}</p>
       <p><strong>Province:</strong> {ecommerce.provinceSelect}</p>

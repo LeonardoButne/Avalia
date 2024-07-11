@@ -44,12 +44,23 @@ body {
     color: #333;
 }
 
-.card img {
-    width: 120px;
+.image {
+    position: relative;
+    width: 150px;
     height: 150px;
-    border-radius: 1rem;
-}
-
+    border-radius: 50%;
+    background-color: #4070f4;
+    padding: 3px;
+    margin-bottom: 10px;
+  }
+  .image .profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+  }
+  
 .card h2 {
     padding: 0.5rem;
     font-size: 1.2rem;
@@ -88,48 +99,7 @@ transition: background-color 0.3s ease-in-out;
 background-color: #0056b3;
 }
 
-
-/* Adicione seu CSS para estilizar os cartões aqui */
-/* Estilize os cartões */
-.content{
-    display: flex;
-    flex-direction: column;
-}
-
-.card-content {
-    font-size: 1.5vw; /* Ajuste o tamanho da fonte conforme necessário */
-}
-
-/* Estilize o botão "Ver perfil" */
-.card button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: auto; /* Centralize vertical e horizontalmente */
-}
-
-.card button:hover {
-    background-color: #0056b3;
-}
 .suspensa-text {
     color: #FF0000; /* Cor vermelha para o texto "SUSPENSO" */
 }
 
-#progress-bar-container {
-    width: 100%;
-    height: 20px;
-    background-color: #bcbcbc;
-    margin-top: 10px;
-    display: none; /* Começa escondido */
-    overflow: hidden; /* Oculta o overflow para que a animação não ultrapasse a barra */
-}
-
-#progress-bar {
-    height: 100%;
-    width: 10%;
-    background-color: #4caf50;
-    transition: width 0.5s ease; /* Adiciona uma transição suave na largura */
-}

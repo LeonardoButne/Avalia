@@ -89,7 +89,7 @@ const CadastroEcommerce: React.FC = () => {
                     contact_email,
                     legal_representative,
                     foundation_date: foundationDate ? foundationDate.toISOString() : '',
-                    profileImageUrl: url
+                    profileImage: url
                 };
 
                 const db = firebase.database().ref("feedbackAqui/ecommerces");

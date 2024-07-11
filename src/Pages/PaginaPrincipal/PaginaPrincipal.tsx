@@ -73,16 +73,14 @@ const EcommerceData: React.FC = () => {
 
   return (
     <div className="cards-container">
-      <h1>Lista de E-commerces</h1>
-
       <div id="ecommerceCards" className="cards-container">
-        {ecommerces.length > 0 ? (
-          ecommerces.map((ecommerce) => (
-            <EcommerceCard key={ecommerce.id} ecommerce={ecommerce} />
-          ))
-        ) : (
-          <Spinner />
-        )}
+            {ecommerces.length > 0 ? (
+        ecommerces.map((ecommerce) => (
+          <EcommerceCard key={ecommerce.ecommerce_name} ecommerce={ecommerce} />
+        ))
+      ) : (
+        <Spinner />
+      )}
       </div>
 
     </div>
