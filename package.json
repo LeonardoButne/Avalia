@@ -8,13 +8,16 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-     "firebase": "firebase"
+    "firebase": "firebase"
   },
   "dependencies": {
     "@firebase/database": "^1.0.6",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@types/jqueryui": "^1.12.23",
     "@types/react-datepicker": "^6.2.0",
+    "bootstrap": "^5.3.3",
     "firebase": "^10.12.3",
+    "font-awesome": "^4.7.0",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",
     "react-dom": "^18.3.1",

@@ -16,7 +16,8 @@ const RoutesComponent = () => {
     return (
         <>
             <React.Suspense fallback={<Spinner />}>
-            <Navbar />
+            <header><Navbar /></header>
+            <section>
                 <Routes>
                     <Route path="/" element={<PaginaPrincipal />} />
                     <Route path="/perfil/:ecommerce_name" element={<PerfilEcommerce />} />
@@ -26,7 +27,8 @@ const RoutesComponent = () => {
                     <Route path="/cadastro-ecommerce" element={<CadastroEcommerce/>}/>
 
                 </Routes>
-            <Footer />
+            </section>
+            <footer><Footer /></footer>
             </React.Suspense>
         </>
     );

@@ -11,6 +11,15 @@
     font-family: monospace;
 }
 
+.app-container {
+    font-family: 'Open Sans', sans-serif;
+    width: 90%;
+    background: #ffffff;
+    border-radius: 4px;
+    margin: 20px;
+    min-height: 500px;
+  }
+
 
 .card {
     margin: 2rem;

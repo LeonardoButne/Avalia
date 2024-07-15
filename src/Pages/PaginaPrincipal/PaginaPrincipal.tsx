@@ -82,11 +82,10 @@ const EcommerceData: React.FC = () => {
         <Spinner />
       )}
       </div>
+
     </div>
     
   );
-  
 };
-
 
 export default EcommerceData;
